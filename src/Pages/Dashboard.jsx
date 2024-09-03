@@ -31,7 +31,11 @@ function Dashboard() {
 
       <div className="gaps wide-card">
         {VisualizerData.map((item, index) => (
-          <RealTimeVisualizer key={index} title={item.title} data={item.data} />
+          <RealTimeVisualizer
+            key={index}
+            title={item.title}
+            chartData={item.data}
+          />
         ))}
       </div>
 

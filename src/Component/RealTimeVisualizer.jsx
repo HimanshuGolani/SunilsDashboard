@@ -22,12 +22,12 @@ ChartJS.register(
   Legend
 );
 
-function RealTimeVisualizer({ title }) {
+function RealTimeVisualizer({ title, chartData }) {
   const [data, setData] = useState({
-    labels: Array.from({ length: 50 }, (_, i) => i + 1), // Create 50 labels
+    labels: Array.from({ length: 50 }, (_, i) => i + 1),
     datasets: [
       {
-        data: generateHeartRateData(),
+        data: chartData,
         fill: true,
         backgroundColor: "rgba(255, 0, 0, 0.8)", // Red background color for the line
         borderColor: "rgba(255, 0, 0, 0.8)", // Red border color for the line
@@ -37,22 +37,22 @@ function RealTimeVisualizer({ title }) {
     ],
   });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newData = generateHeartRateData();
-      setData((prevState) => ({
-        ...prevState,
-        datasets: [
-          {
-            ...prevState.datasets[0],
-            data: newData,
-          },
-        ],
-      }));
-    }, 1000); // Update data every second
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const newData = fill on the method that withh fill the data in the chart continuesly;
+  //     setData((prevState) => ({
+  //       ...prevState,
+  //       datasets: [
+  //         {
+  //           ...prevState.datasets[0],
+  //           data: newData,
+  //         },
+  //       ],
+  //     }));
+  //   }, 1000); // Update data every second
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div
