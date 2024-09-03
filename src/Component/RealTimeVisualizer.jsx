@@ -87,8 +87,8 @@ function RealTimeVisualizer({ title }) {
               ticks: {
                 color: "#e0e0e0", // Light gray Y-axis labels color for contrast
               },
-              min: 50,
-              max: 150,
+              min: 0,
+              max: 120,
             },
           },
           plugins: {

@@ -58,6 +58,7 @@ h2 {
 
 .metrics,
 .prediction {
+  margin-top: 2rem;
   background-color: var(--card-bg-color);
   border: 2px solid var(--card-border-color);
   padding: 20px;
