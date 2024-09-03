@@ -57,6 +57,53 @@ h2 {
   width: 100%;
 }
 
+.metrics {
+  display: grid;
+  gap: 1rem;
+  background-color: var(--card-bg-color);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-duration),
+    box-shadow var(--transition-duration);
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.metric-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.metric-icon {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.metric-label {
+  font-weight: bold;
+  margin-right: 5px;
+  color: var(--primary-color);
+}
+
+.metric-value {
+  color: var(--text-color);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.metrics:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 229, 255, 0.3);
+}
+
 .metrics,
 .prediction {
   background-color: var(--card-bg-color);

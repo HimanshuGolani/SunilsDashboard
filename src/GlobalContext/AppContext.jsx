@@ -15,6 +15,9 @@ const AppFieldsProvider = ({ children }) => {
   const [bodyTemperature, setBodyTemp] = useState([
     10, 20, 30, 20, 100, 10, 20, 30, 40, 60, 77, 80, 90,
   ]);
+
+  const DATA_URL = "54.83.118.12:8000/ws";
+
   return (
     <AppContext.Provider
       value={{
@@ -26,6 +29,7 @@ const AppFieldsProvider = ({ children }) => {
         setPulseRate,
         bodyTemperature,
         setBodyTemp,
+        DATA_URL,
       }}
     >
       {children}

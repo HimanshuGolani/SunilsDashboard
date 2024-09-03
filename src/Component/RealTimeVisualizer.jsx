@@ -29,30 +29,30 @@ function RealTimeVisualizer({ title, chartData }) {
       {
         data: chartData,
         fill: true,
-        backgroundColor: "rgba(255, 0, 0, 0.8)", // Red background color for the line
+        backgroundColor: "red", // Red background color for the line
         borderColor: "rgba(255, 0, 0, 0.8)", // Red border color for the line
-        borderWidth: 2,
+        borderWidth: 4,
         tension: 0.1, // Slightly jagged line
       },
     ],
   });
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const newData = fill on the method that withh fill the data in the chart continuesly;
-  //     setData((prevState) => ({
-  //       ...prevState,
-  //       datasets: [
-  //         {
-  //           ...prevState.datasets[0],
-  //           data: newData,
-  //         },
-  //       ],
-  //     }));
-  //   }, 1000); // Update data every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newData = generateHeartRateData();
+      setData((prevState) => ({
+        ...prevState,
+        datasets: [
+          {
+            ...prevState.datasets[0],
+            data: newData,
+          },
+        ],
+      }));
+    }, 1000); // Update data every second
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div
@@ -71,7 +71,7 @@ function RealTimeVisualizer({ title, chartData }) {
           color: "#e0e0e0", // Light gray text color
         }}
       >
-        {title}
+        {`${title} `}
       </h2>
       <Line
         data={data}
