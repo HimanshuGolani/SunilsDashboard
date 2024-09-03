@@ -24,7 +24,7 @@ ChartJS.register(
 
 function RealTimeVisualizer({ title, chartData }) {
   const [data, setData] = useState({
-    labels: Array.from({ length: 50 }, (_, i) => i + 1),
+    labels: Array.from({ length: 10 }, (_, i) => i + 1),
     datasets: [
       {
         data: chartData,
@@ -57,7 +57,7 @@ function RealTimeVisualizer({ title, chartData }) {
   return (
     <div
       style={{
-        width: "55dvw",
+        width: "30dvw",
         backgroundColor: "#0f3460", // Deep blue card background
         padding: "20px",
         borderRadius: "15px",
@@ -69,7 +69,6 @@ function RealTimeVisualizer({ title, chartData }) {
       <h2
         style={{
           color: "#e0e0e0", // Light gray text color
-          textShadow: "0 0 5px #00e5ff, 0 0 10px #00e5ff", // Glowing text effect
         }}
       >
         {title}

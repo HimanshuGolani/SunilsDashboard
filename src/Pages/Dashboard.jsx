@@ -29,7 +29,7 @@ function Dashboard() {
     <div className="dashboard">
       <Header />
 
-      <div className="gaps wide-card">
+      <div className="gaps">
         {VisualizerData.map((item, index) => (
           <RealTimeVisualizer
             key={index}
@@ -39,15 +39,7 @@ function Dashboard() {
         ))}
       </div>
 
-      <div className="prediction">
-        <h2
-          style={{
-            fontSize: "1.8rem",
-          }}
-        >
-          The Results are listed below :{" "}
-        </h2>
-
+      <div className="metrics-prediction">
         <Metrics />
         <Prediction />
       </div>
