@@ -28,7 +28,7 @@ function RealTimeVisualizer({ title, chartData }) {
       {
         data: chartData,
         fill: true,
-        backgroundColor: "#1a1a1a", // Vibrant Orange background color for the line
+        backgroundColor: "#1a1a1a", // Dark Gray background color for the line
         borderColor: "rgba(255, 140, 0, 0.8)", // Orange border color for the line
         borderWidth: 4,
         tension: 0.3, // Slightly jagged line
@@ -56,54 +56,62 @@ function RealTimeVisualizer({ title, chartData }) {
   return (
     <div
       style={{
-        width: "30dvw",
+        width: "90%",
+        maxWidth: "600px",
+        margin: "20px auto", // Ensure consistent margin in all screen sizes
         backgroundColor: "#1a1a1a", // Dark Gray card background
         padding: "20px",
         borderRadius: "15px",
         boxShadow: "0 6px 12px rgba(255, 140, 0, 0.3)", // Orange Glow
         transition: "transform 0.4s, box-shadow 0.4s", // Match the global transition duration
+        overflow: "hidden",
       }}
       className="visualizer-card"
     >
       <h2
         style={{
           color: "#f5f5f5", // Light Gray text color
+          textAlign: "center",
+          marginBottom: "15px",
         }}
       >
         {`${title} `}
       </h2>
-      <Line
-        data={data}
-        options={{
-          responsive: true,
-          scales: {
-            x: {
-              display: false,
-            },
-            y: {
-              display: true,
-              ticks: {
-                color: "#f5f5f5", // Light Gray Y-axis labels color for contrast
+      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+        <Line
+          data={data}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                display: false,
               },
-              min: 0,
-              max: 120,
+              y: {
+                display: true,
+                ticks: {
+                  color: "#f5f5f5", // Light Gray Y-axis labels color for contrast
+                },
+                min: 0,
+                max: 120,
+              },
             },
-          },
-          plugins: {
-            legend: {
-              display: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                backgroundColor: "rgba(255, 140, 0, 0.8)", // Matching tooltip background
+                titleColor: "#fff", // White text in tooltip for clarity
+                bodyColor: "#fff", // White text in tooltip body
+                borderColor: "#fff", // Border to distinguish tooltip
+                borderWidth: 1,
+              },
             },
-            tooltip: {
-              backgroundColor: "rgba(255, 140, 0, 0.8)", // Matching tooltip background
-              titleColor: "#fff", // White text in tooltip for clarity
-              bodyColor: "#fff", // White text in tooltip body
-              borderColor: "#fff", // Border to distinguish tooltip
-              borderWidth: 1,
-            },
-          },
-        }}
-        style={{ width: "100%", height: "400px" }}
-      />
+          }}
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
     </div>
   );
 }
