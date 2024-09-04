@@ -3,7 +3,7 @@ import { FaHeartbeat, FaThermometerHalf, FaTint, FaWind } from "react-icons/fa";
 
 export default function Metrics() {
   return (
-    <div className="metrics">
+    <div className="metrics center">
       <div className="metric-item">
         <FaWind className="metric-icon" />
         <span className="metric-label">Bio-Impedance Levels:</span>

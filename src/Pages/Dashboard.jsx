@@ -100,6 +100,7 @@ function Dashboard() {
         ))}
       </div>
 
+      <h2 className="report-heading">Plethysmography Report</h2>
       <div className="metrics-prediction">
         <Metrics />
         <Prediction />

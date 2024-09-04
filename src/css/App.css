@@ -37,6 +37,7 @@ header {
   transition: background-color var(--transition-duration),
     box-shadow var(--transition-duration);
   margin-bottom: 2rem;
+  font-size: 1.8rem;
 }
 
 h2 {
@@ -59,6 +60,11 @@ h2 {
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
   width: 100%;
+  border: 2px solid var(--card-border-color);
+  padding: 20px;
+  border-radius: 15px;
+  transition: transform var(--transition-duration),
+    box-shadow var(--transition-duration);
 }
 
 .metrics {
@@ -101,10 +107,10 @@ h2 {
   font-size: 1.1rem;
 }
 
-.metrics:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(255, 140, 0, 0.3);
-}
+/* .metrics:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(255, 140, 0, 0.3);
+  } */
 
 .metrics,
 .prediction {
@@ -123,6 +129,15 @@ h2 {
   line-height: 1.8;
   color: var(--text-color);
   margin-bottom: 15px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: fit-content;
 }
 
 @media (max-width: 1024px) {
@@ -158,10 +173,48 @@ h2 {
   .metrics-prediction {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    width: fit-content;
+    overflow: hidden;
   }
 
   .gaps {
     grid-template-columns: 1fr;
+  }
+}
+
+.metrics-prediction {
+  display: flex; /* Changed from grid to flex for a single row layout */
+  justify-content: space-between; /* Distribute space between components */
+  align-items: stretch; /* Ensure items stretch to the same height */
+  gap: 2rem; /* Add space between components */
+  width: 100%;
+}
+
+.report-heading {
+  color: var(--text-color); /* Light Gray text color */
+  text-align: center; /* Center align heading */
+  margin: 20px 0; /* Margin for spacing */
+  font-size: 2.4rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .metrics-prediction {
+    flex-direction: column; /* Stack vertically on smaller screens */
+    width: fit-content;
+    overflow: hidden;
+  }
+
+  .metrics,
+  .prediction {
+    width: 100%; /* Ensure full width */
+  }
+}
+
+/* Optional: Additional responsiveness */
+@media (max-width: 480px) {
+  .report-heading {
+    font-size: 20px; /* Reduce font size for smaller screens */
   }
 }
 
@@ -177,6 +230,8 @@ h2 {
   .metrics-prediction {
     grid-template-columns: 1fr;
     gap: 1rem;
+    width: fit-content;
+    overflow: hidden;
   }
 
   .gaps {
