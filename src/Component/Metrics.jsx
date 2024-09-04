@@ -1,5 +1,5 @@
 import React from "react";
-import { FaHeartbeat, FaThermometerHalf, FaTint, FaWind } from "react-icons/fa"; // Importing some icons
+import { FaHeartbeat, FaThermometerHalf, FaTint, FaWind } from "react-icons/fa";
 
 export default function Metrics() {
   return (

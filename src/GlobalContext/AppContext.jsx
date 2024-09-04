@@ -1,21 +1,13 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const AppContext = createContext();
 
 const AppFieldsProvider = ({ children }) => {
-  const [bloodSpo2, setSpo2] = useState([
-    10, 20, 30, 20, 100, 10, 20, 30, 40, 60, 77, 80, 90,
-  ]);
-  const [bioImpendence, setBioImpedence] = useState([
-    10, 20, 30, 20, 100, 10, 20, 30, 40, 60, 77, 80, 90,
-  ]);
-  const [pulseRate, setPulseRate] = useState([
-    10, 20, 30, 20, 100, 10, 20, 30, 40, 60, 77, 80, 90,
-  ]);
-  const [bodyTemperature, setBodyTemp] = useState([
-    10, 20, 30, 20, 100, 10, 20, 30, 40, 60, 77, 80, 90,
-  ]);
-
+  const [bloodSpo2, setSpo2] = useState([]);
+  const [bioImpendence, setBioImpedence] = useState([]);
+  const [pulseRate, setPulseRate] = useState([]);
+  const [bodyTemperature, setBodyTemp] = useState([]);
+  const [beatsAvg, setBeatsAvg] = useState([]);
   const DATA_URL = "54.83.118.12:8000/ws";
 
   return (
@@ -30,6 +22,8 @@ const AppFieldsProvider = ({ children }) => {
         bodyTemperature,
         setBodyTemp,
         DATA_URL,
+        beatsAvg,
+        setBeatsAvg,
       }}
     >
       {children}

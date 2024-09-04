@@ -4,7 +4,6 @@ import RealTimeVisualizer from "../Component/RealTimeVisualizer";
 import Metrics from "../Component/Metrics";
 import Prediction from "../Component/Prediction";
 import { useAppState } from "../GlobalContext/AppContext";
-import axios from "axios";
 
 function Dashboard() {
   const VisualizerData = [
@@ -36,16 +35,56 @@ function Dashboard() {
     setPulseRate,
     setBodyTemp,
     DATA_URL,
+    beatsAvg,
+    setBeatsAvg,
   } = useAppState();
 
-  // const fetchData = async () => {
-  //   const response = await axios.get("ws://54.83.118.12/ws");
-  //   console.log(response.data);
-  // };
+  const fetchSensorData = () => {
+    const socket = new WebSocket("ws://54.83.118.12:8000/ws");
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [bloodSpo2, bioImpendence, pulseRate, bodyTemperature]);
+    socket.onopen = () => {
+      console.log("WebSocket connection established.");
+    };
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log("Received WebSocket message:", message);
+
+      if (message.SensorData) {
+        const data = message.SensorData;
+        console.log("SensorData:", data);
+
+        setPulseRate((prevData) => [...prevData, data.beatsPerMinute]);
+        setBeatsAvg((prevData) => [...prevData, data.beatAvg]);
+        setSpo2((prevData) => [...prevData, data.SpO2]);
+        setBodyTemp((prevData) => [...prevData, data.bodyTemperature]);
+
+        // Update the global state using the setters from the context
+        setSpo2(data.SpO2);
+        setBioImpedence(data.beatAvg); // Assuming beatAvg corresponds to bioImpedence
+        setPulseRate(data.beatsPerMinute);
+        setBodyTemp(data.bodyTemperature);
+      } else {
+        console.warn("Received unrecognized message format:", message);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed.");
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  };
+
+  useEffect(() => {
+    // Call fetchSensorData every 2 seconds
+    const intervalId = setInterval(fetchSensorData, 2000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="dashboard">

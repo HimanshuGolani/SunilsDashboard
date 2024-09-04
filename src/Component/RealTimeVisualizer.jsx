@@ -11,7 +11,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register the components you need
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -29,10 +28,10 @@ function RealTimeVisualizer({ title, chartData }) {
       {
         data: chartData,
         fill: true,
-        backgroundColor: "red", // Red background color for the line
-        borderColor: "rgba(255, 0, 0, 0.8)", // Red border color for the line
+        backgroundColor: "#1a1a1a", // Vibrant Orange background color for the line
+        borderColor: "rgba(255, 140, 0, 0.8)", // Orange border color for the line
         borderWidth: 4,
-        tension: 0.1, // Slightly jagged line
+        tension: 0.3, // Slightly jagged line
       },
     ],
   });
@@ -49,7 +48,7 @@ function RealTimeVisualizer({ title, chartData }) {
           },
         ],
       }));
-    }, 1000); // Update data every second
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -58,17 +57,17 @@ function RealTimeVisualizer({ title, chartData }) {
     <div
       style={{
         width: "30dvw",
-        backgroundColor: "#0f3460", // Deep blue card background
+        backgroundColor: "#1a1a1a", // Dark Gray card background
         padding: "20px",
         borderRadius: "15px",
-        boxShadow: "0 6px 12px rgba(0, 229, 255, 0.3)", // Neon Cyan Glow
+        boxShadow: "0 6px 12px rgba(255, 140, 0, 0.3)", // Orange Glow
         transition: "transform 0.4s, box-shadow 0.4s", // Match the global transition duration
       }}
-      className="visualizer-card" // Add class name for potential further styling
+      className="visualizer-card"
     >
       <h2
         style={{
-          color: "#e0e0e0", // Light gray text color
+          color: "#f5f5f5", // Light Gray text color
         }}
       >
         {`${title} `}
@@ -79,12 +78,12 @@ function RealTimeVisualizer({ title, chartData }) {
           responsive: true,
           scales: {
             x: {
-              display: false, // Hide x-axis labels
+              display: false,
             },
             y: {
               display: true,
               ticks: {
-                color: "#e0e0e0", // Light gray Y-axis labels color for contrast
+                color: "#f5f5f5", // Light Gray Y-axis labels color for contrast
               },
               min: 0,
               max: 120,
@@ -92,16 +91,23 @@ function RealTimeVisualizer({ title, chartData }) {
           },
           plugins: {
             legend: {
-              display: false, // Hide legend
+              display: false,
+            },
+            tooltip: {
+              backgroundColor: "rgba(255, 140, 0, 0.8)", // Matching tooltip background
+              titleColor: "#fff", // White text in tooltip for clarity
+              bodyColor: "#fff", // White text in tooltip body
+              borderColor: "#fff", // Border to distinguish tooltip
+              borderWidth: 1,
             },
           },
         }}
+        style={{ width: "100%", height: "400px" }}
       />
     </div>
   );
 }
 
-// Function to generate random heart rate data with sharp peaks and valleys
 function generateHeartRateData() {
   const data = [];
   for (let i = 0; i < 50; i++) {
