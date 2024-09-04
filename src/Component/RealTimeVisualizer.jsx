@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler, // Import the Filler plugin
 } from "chart.js";
 
 ChartJS.register(
@@ -18,15 +19,17 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler // Register the Filler plugin
 );
 
 function RealTimeVisualizer({ title, chartData }) {
   const [data, setData] = useState({
-    labels: Array.from({ length: 10 }, (_, i) => i + 1),
+    labels: Array.from({ length: 10 }, (_, i) => i + 1), // Initial labels
     datasets: [
       {
-        data: chartData,
+        label: title,
+        data: [], // Start with an empty data array
         fill: true,
         backgroundColor: "#1a1a1a", // Dark Gray background color for the line
         borderColor: "rgba(255, 140, 0, 0.8)", // Orange border color for the line
@@ -37,21 +40,30 @@ function RealTimeVisualizer({ title, chartData }) {
   });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newData = generateHeartRateData();
-      setData((prevState) => ({
-        ...prevState,
-        datasets: [
-          {
-            ...prevState.datasets[0],
-            data: newData,
-          },
-        ],
-      }));
-    }, 1000);
+    if (typeof chartData === "number") {
+      // Check if chartData is a number
+      setData((prevState) => {
+        const newData = [...prevState.datasets[0].data, chartData];
 
-    return () => clearInterval(interval);
-  }, []);
+        // Keep only the last 10 entries for the data
+        const last10Data = newData.slice(-10);
+
+        // Update the labels accordingly
+        const newLabels = last10Data.map((_, index) => index + 1);
+
+        return {
+          ...prevState,
+          labels: newLabels, // Update labels dynamically
+          datasets: [
+            {
+              ...prevState.datasets[0],
+              data: last10Data, // Update the dataset with the last 10 entries
+            },
+          ],
+        };
+      });
+    }
+  }, [chartData]);
 
   return (
     <div
@@ -85,7 +97,10 @@ function RealTimeVisualizer({ title, chartData }) {
             maintainAspectRatio: false,
             scales: {
               x: {
-                display: false,
+                display: true,
+                ticks: {
+                  color: "#f5f5f5", // Light Gray X-axis labels color for contrast
+                },
               },
               y: {
                 display: true,
@@ -93,7 +108,7 @@ function RealTimeVisualizer({ title, chartData }) {
                   color: "#f5f5f5", // Light Gray Y-axis labels color for contrast
                 },
                 min: 0,
-                max: 120,
+                max: 120, // Adjust as needed based on expected data range
               },
             },
             plugins: {
@@ -114,15 +129,6 @@ function RealTimeVisualizer({ title, chartData }) {
       </div>
     </div>
   );
-}
-
-function generateHeartRateData() {
-  const data = [];
-  for (let i = 0; i < 50; i++) {
-    const value = i % 10 === 0 ? 120 : 60 + Math.random() * 40; // Sharp peaks every 10th value
-    data.push(value);
-  }
-  return data;
 }
 
 export default RealTimeVisualizer;
