@@ -39,7 +39,7 @@ export default function Dashboard() {
   ];
 
   const fetchSensorData = () => {
-    const socket = new WebSocket("ws://54.83.118.12:5000");
+    const socket = new WebSocket("wss://54.83.118.12:5000");
 
     socket.onopen = () => {
       console.log("WebSocket connection established.");
