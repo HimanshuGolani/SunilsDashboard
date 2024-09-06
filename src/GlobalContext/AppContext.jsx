@@ -7,7 +7,7 @@ const AppFieldsProvider = ({ children }) => {
   const [bioImpendence, setBioImpedence] = useState();
   const [pulseRate, setPulseRate] = useState();
   const [bodyTemperature, setBodyTemp] = useState();
-  const [beatsAvg, setBeatsAvg] = useState();
+  const [fieldMessage, setFieldMessage] = useState("Loading...");
   const DATA_URL = "54.83.118.12:8000/ws";
 
   return (
@@ -22,8 +22,8 @@ const AppFieldsProvider = ({ children }) => {
         bodyTemperature,
         setBodyTemp,
         DATA_URL,
-        beatsAvg,
-        setBeatsAvg,
+        fieldMessage,
+        setFieldMessage,
       }}
     >
       {children}

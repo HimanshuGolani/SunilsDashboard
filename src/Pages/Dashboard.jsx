@@ -4,9 +4,8 @@ import RealTimeVisualizer from "../Component/RealTimeVisualizer";
 import Metrics from "../Component/Metrics";
 import Prediction from "../Component/Prediction";
 import { useAppState } from "../GlobalContext/AppContext";
-import axios from "axios";
 
-function Dashboard() {
+export default function Dashboard() {
   const {
     bloodSpo2,
     bioImpendence,
@@ -16,6 +15,8 @@ function Dashboard() {
     setBioImpedence,
     setPulseRate,
     setBodyTemp,
+    fieldMessage,
+    setFieldMessage,
   } = useAppState();
 
   const VisualizerData = [
@@ -37,40 +38,66 @@ function Dashboard() {
     },
   ];
 
-  const fetchSensorData = async () => {
-    try {
-      const response = await axios.get("aapna-url-dal-do");
-      const data = response.data;
-      console.log(data);
+  const fetchSensorData = () => {
+    const socket = new WebSocket("ws://localhost:8000/");
 
-      // Extracting values from the response and updating the global state
-      setSpo2(parseFloat(data.SpO2?.N) || 0); // If SpO2 exists, set the value, otherwise set to 0
-      setBioImpedence(parseFloat(data.boiImpendence?.N) || 0); // Same for boiImpendence
-      setPulseRate(parseFloat(data.beatsPerMinute?.N) || 0); // Same for beatsPerMinute
-      setBodyTemp(parseFloat(data.bodyTemperature?.N) || 0); // Same for bodyTemperature
-    } catch (error) {
-      console.error("Error fetching sensor data:", error);
+    socket.onopen = () => {
+      console.log("WebSocket connection established.");
+    };
 
-      // If there's an error, set all values to 0
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log("Received WebSocket message:", message);
+
+      if (message) {
+        const { SpO2, boiImpendence, beatsPerMinute, bodyTemperature } =
+          message;
+        console.log("SensorData:", message);
+
+        // Update the global state using the setters from the context
+        setSpo2(parseFloat(SpO2.N));
+        setBioImpedence(parseFloat(boiImpendence.N));
+        setPulseRate(parseFloat(beatsPerMinute.N));
+        setBodyTemp(parseFloat(bodyTemperature.N));
+      } else {
+        setSpo2(0);
+        setBioImpedence(0);
+        setPulseRate(0);
+        setBodyTemp(0);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed.");
       setSpo2(0);
       setBioImpedence(0);
       setPulseRate(0);
       setBodyTemp(0);
-    }
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+    };
   };
 
   useEffect(() => {
-    // Call fetchSensorData every 2 seconds
-    const intervalId = setInterval(fetchSensorData, 2000);
+    // Establish WebSocket connection and start receiving data
+    const cleanup = fetchSensorData();
 
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
+    // Clean up WebSocket when the component unmounts
+    return cleanup;
   }, []);
 
   return (
     <div className="dashboard">
       <Header />
-
       <div className="gaps">
         {VisualizerData.map((item, index) => (
           <RealTimeVisualizer
@@ -80,14 +107,19 @@ function Dashboard() {
           />
         ))}
       </div>
-
       <h2 className="report-heading">Plethysmography Report</h2>
       <div className="metrics-prediction">
         <Metrics />
+        {/* New m iddle panel */}
+        <div className="middle-panel">
+          <h3 className="report-heading">Algorithmic Result</h3>
+          <div className="field">
+            <label>Real Time Result:</label>
+            <span>{fieldMessage}</span>
+          </div>
+        </div>
         <Prediction />
       </div>
     </div>
   );
 }
-
-export default Dashboard;
