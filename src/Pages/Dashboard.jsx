@@ -39,7 +39,7 @@ export default function Dashboard() {
   ];
 
   const fetchSensorData = () => {
-    const socket = new WebSocket("ws://localhost:8000/");
+    const socket = new WebSocket("ws://54.83.118.12:5000");
 
     socket.onopen = () => {
       console.log("WebSocket connection established.");
@@ -50,15 +50,17 @@ export default function Dashboard() {
       console.log("Received WebSocket message:", message);
 
       if (message) {
-        const { SpO2, boiImpendence, beatsPerMinute, bodyTemperature } =
-          message;
+        const { SpO2, bioImpedence, beatsPerMinute, bodyTemperature } =
+          message.SensorData;
+        console.log(SpO2, bioImpedence, beatsPerMinute, bodyTemperature);
+
         console.log("SensorData:", message);
 
         // Update the global state using the setters from the context
-        setSpo2(parseFloat(SpO2.N));
-        setBioImpedence(parseFloat(boiImpendence.N));
-        setPulseRate(parseFloat(beatsPerMinute.N));
-        setBodyTemp(parseFloat(bodyTemperature.N));
+        setSpo2(parseFloat(SpO2));
+        setBioImpedence(parseFloat(bioImpedence));
+        setPulseRate(parseFloat(beatsPerMinute));
+        setBodyTemp(parseFloat(bodyTemperature));
       } else {
         setSpo2(0);
         setBioImpedence(0);
