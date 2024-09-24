@@ -51,8 +51,7 @@ export default function Dashboard() {
       console.log("Received WebSocket message:", message);
 
       if (message) {
-        const { SpO2, bioImpedence, beatsPerMinute, bodyTemperature } =
-          message.SensorData;
+        const { SpO2, bioImpedence, beatsPerMinute, bodyTemperature } = message;
         console.log(SpO2, bioImpedence, beatsPerMinute, bodyTemperature);
 
         console.log("SensorData:", message);

@@ -8,7 +8,7 @@ const AppFieldsProvider = ({ children }) => {
   const [pulseRate, setPulseRate] = useState();
   const [bodyTemperature, setBodyTemp] = useState();
   const [fieldMessage, setFieldMessage] = useState("Loading...");
-  const DATA_URL = "ws://54.83.118.12:5000";
+  const DATA_URL = "ws://localhost:8000";
 
   return (
     <AppContext.Provider

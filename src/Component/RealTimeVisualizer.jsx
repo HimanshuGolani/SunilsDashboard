@@ -87,7 +87,12 @@ function RealTimeVisualizer({ title, chartData }) {
           marginBottom: "15px",
         }}
       >
-        {`${title} `}
+        {`${title}`}
+        {
+          <span class="bg-blue-200 text-blue-700 px-2 py-1 rounded-md">
+            {chartData}
+          </span>
+        }
       </h2>
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
         <Line
@@ -108,7 +113,7 @@ function RealTimeVisualizer({ title, chartData }) {
                   color: "#f5f5f5", // Light Gray Y-axis labels color for contrast
                 },
                 min: 0,
-                max: 120, // Adjust as needed based on expected data range
+                max: 150, // Adjust as needed based on expected data range
               },
             },
             plugins: {
